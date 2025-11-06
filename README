@@ -1,0 +1,51 @@
+
+
+# Használt JavaScript technikák
+
+Rövid összefoglaló a tanult technikák közül, amiket a projektben alkalmaztam.
+
+- JavaScript nyelvi elemei
+    - Változók: let/const, típuskonverziók
+    - Függvények: névvel és arrow függvények, visszatérés ígérettel (async/await)
+    - Osztályok és modulok (ES6 import/export) kisebb komponensek elkülönítésére
+
+- DOM programozás
+    - querySelector/querySelectorAll
+    - classList használata stílusok váltására
+    - dinamikus tartalom létrehozása táblázatokhoz és képekhez
+
+- Eseménykezelés részletei
+    - addEventListener minden interakcióra (click, submit, input)
+    - eseménydelegálás listák és táblázatok esetén
+    - preventDefault szükség szerint
+
+- Kódszervezés, adatok tárolása
+    - Moduláris felépítés (funkciók külön fájlokban)
+    - localStorage / sessionStorage egyszerű perzisztáláshoz
+
+- Űrlapok, képek, táblázatok
+    - Űrlapvalidáció client oldalon 
+    - Dinamikus táblázatépítés és rendezés egyszerű algoritmussal
+
+- JavaScript beépített objektumai
+    - Array metódusok (map, filter, reduce, forEach)
+    - Date, Math és JSON használata
+    - Async/await az aszinkron műveletekhez
+
+- Canvas, animációk, API-k
+    - canvas 2D alapok és requestAnimationFrame egyszerű animációkhoz
+    - Fetch API hálózati kérésekhez; használat REST/JSON végpontokkal
+    - Alapvető error handling és timeout kezelések fetch-en belül
+
+# Játék leírása
+
+- Egyszerű platformer játék, ahol a játékos egy karaktert irányít, aki különböző akadályokat kell leküzdjön, érméket gyűjtsön és elérje a célt. A játék célja minél több pontot szerezni és túlélni a pályát.
+- 3 élet áll rendelkezésre, ha a játékos elveszíti mindhárom életét, a játék véget ér.
+- A játékos a karaktert a billentyűzet nyilaival tudja irányítani (balra, jobbra) és a szóközzel ugrani.
+
+# Játék elérése
+A játék elérhető a következő linken: [Játék linkje](https://ofimate.web.elte.hu/javascript_beadando/)
+A játék forráskódja megtalálható a GitHub repóban: [GitHub repó linkje](https://github.com/Archion/javascript_beadando)
+
+# Licencelés
+A kód bárki számára szabadon felhasználható, módosítható és terjeszthető. A képeket én készítettem, így azok is szabadon használhatók a projektben.

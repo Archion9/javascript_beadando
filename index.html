@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Platformer</title>
+    <script>
+        function fillScoreTable() {
+            const scoreTableBody = document.getElementById('score-tbody');
+    scoreTableBody.innerHTML = ''; // Clear existing rows
+
+        // Get all saved games (array)
+        const allGames = JSON.parse(localStorage.getItem('gameData')) || [];
+
+        // If no data, show a message
+        if (allGames.length === 0) {
+            scoreTableBody.innerHTML = `<tr><td colspan="4">Nincs mentett játék</td></tr>`;
+            return;
+        }
+
+        // Create a table row for each saved game
+        allGames.forEach(game => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${game.username || 'N/A'}</td>
+                <td>${game.score || 0}</td>
+                <td>${game.lives || 0}</td>
+                <td>${game.time || 0}s</td>
+            `;
+            scoreTableBody.appendChild(row);
+        });
+        }
+        window.onload = fillScoreTable;
+    </script>
+</head>
+<body>
+
+    <div id="menu-container">
+        <div id="registration-container">
+            <h1>Platformer játék</h1>
+            <input type="text" id="username" placeholder="Felhasználónév">
+            <button id="start-button" type="button">Játék indítása</button>
+        </div>
+        <div id="score-container">
+            <h2>Pontszám: </h2>
+            <table id="score-table">
+                <thead>
+                    <tr>
+                        <th>Felhasználónév</th>
+                        <th>Pontszám</th>
+                        <th>Életek</th>
+                        <th>Idő</th>
+                    </tr>
+                </thead>
+                <tbody id="score-tbody">
+
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button onclick="localStorage.clear(); location.reload();">Mentett játékok törlése</button>
+        </div>
+    </div>
+    <canvas id="game-canvas" width="1024" height="640"></canvas>
+
+    <script src="./frontend/camera.js" type="module"></script>
+    <script src="./frontend/constants.js" type="module"></script>
+    <script src="./frontend/engine.js" type="module"></script>
+    <script src="./frontend/game_regist.js" type="module"></script>
+    <script src="./frontend/input.js" type="module"></script>
+    <script src="./frontend/level.js" type="module"></script>
+    <script src="./frontend/physics.js" type="module"></script>
+    <script src="./frontend/player.js" type="module"></script>
+</body>
+</html>

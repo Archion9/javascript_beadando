@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #3e1f71;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Disable scrolls */
+body, html {
+    overflow: hidden;
+    height: 100%;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+/*Change placeholder color*/
+input::placeholder {
+    color: white;
+}
+input, button{
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: rgb(63, 112, 202);
+    color: white;
+}
+button:hover {
+    background-color: rgb(49, 49, 245);
+    cursor:  pointer;
+}
+button:active {
+    cursor: pointer;
+    background-color: rgb(42, 42, 173);
+}
+canvas {
+    display: none;
+    margin: 5em auto;
+    background-color: #87CEEB;
+    border: 2px solid black;
+}   
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+table, th, td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: center;
+}   
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+td{
+    background-color: #84d24c;
+}

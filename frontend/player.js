@@ -9,7 +9,7 @@ export const player = {
   y: 100,
   points: 0,
   lives: 3,
-  width: 32,
+  width: 31,
   height: 48,
   dx: 0,
   dy: 0,

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,38 +10,85 @@
     <script>
         function fillScoreTable() {
             const scoreTableBody = document.getElementById('score-tbody');
-    scoreTableBody.innerHTML = ''; // Clear existing rows
+            scoreTableBody.innerHTML = ''; // Clear existing rows
 
-        // Get all saved games (array)
-        const allGames = JSON.parse(localStorage.getItem('gameData')) || [];
+            // Get all saved games (array)
+            const allGames = JSON.parse(localStorage.getItem('gameData')) || [];
 
-        // If no data, show a message
-        if (allGames.length === 0) {
-            scoreTableBody.innerHTML = `<tr><td colspan="4">Nincs mentett játék</td></tr>`;
-            return;
+            // If no data, show a message
+            if (allGames.length === 0) {
+                scoreTableBody.innerHTML = `<tr><td colspan="4">Nincs mentett játék</td></tr>`;
+                return;
+            }
+
+            // Create a table row for each saved game
+            allGames.forEach(game => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${game.username || 'N/A'}</td>
+                    <td>${game.score || 0}</td>
+                    <td>${game.lives || 0}</td>
+                    <td>${game.time || 0}s</td>
+                `;
+                scoreTableBody.appendChild(row);
+            });
         }
 
-        // Create a table row for each saved game
-        allGames.forEach(game => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${game.username || 'N/A'}</td>
-                <td>${game.score || 0}</td>
-                <td>${game.lives || 0}</td>
-                <td>${game.time || 0}s</td>
-            `;
-            scoreTableBody.appendChild(row);
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('#register').addEventListener('click', async () => {
+                try {
+                    alert("Regisztráció gomb megnyomva");
+
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value.trim();
+
+                    if (!username || !password) {
+                        alert("Kérem töltse ki a mezőket!");
+                        return;
+                    }
+
+                    const response = await fetch('backend/regist.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    // Read raw response first to debug any JSON issues
+                    const text = await response.text();
+                    console.log('Raw PHP response:', text);
+
+                    // Then parse JSON safely
+                    const data = JSON.parse(text);
+
+                    if (data.status === 'success') {
+                        alert("✅ Sikeres regisztráció!");
+                    } else {
+                        alert("⚠️ Sikertelen regisztráció: " + data.message);
+                    }
+
+                } catch (error) {
+                    console.error('Hiba a regisztráció során:', error);
+                    alert("❌ Hiba történt a regisztráció során.");
+                }
+            });
         });
-        }
+
+
         window.onload = fillScoreTable;
     </script>
 </head>
+
 <body>
 
     <div id="menu-container">
         <div id="registration-container">
             <h1>Platformer játék</h1>
             <input type="text" id="username" placeholder="Felhasználónév">
+            <input type="password" id="password" placeholder="Jelszó">
+            <button type="button" id="register" value="Regisztráció">Regisztráció</button>
+            <button type="button" id="login" value="Bejelentkezés"> Bejelentkezés</button>
             <button id="start-button" type="button">Játék indítása</button>
         </div>
         <div id="score-container">
@@ -74,4 +122,5 @@
     <script src="./frontend/physics.js" type="module"></script>
     <script src="./frontend/player.js" type="module"></script>
 </body>
+
 </html>

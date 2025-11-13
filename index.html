@@ -35,48 +35,105 @@
         }
 
 
+        async function fetchRegister() {
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('#register').addEventListener('click', async () => {
-                try {
-                    alert("Regisztráció gomb megnyomva");
+            try {
+                alert("Regisztráció gomb megnyomva");
 
-                    const username = document.getElementById('username').value.trim();
-                    const password = document.getElementById('password').value.trim();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
 
-                    if (!username || !password) {
-                        alert("Kérem töltse ki a mezőket!");
-                        return;
-                    }
-
-                    const response = await fetch('backend/regist.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username, password })
-                    });
-
-                    // Read raw response first to debug any JSON issues
-                    const text = await response.text();
-                    console.log('Raw PHP response:', text);
-
-                    // Then parse JSON safely
-                    const data = JSON.parse(text);
-
-                    if (data.status === 'success') {
-                        alert("✅ Sikeres regisztráció!");
-                    } else {
-                        alert("⚠️ Sikertelen regisztráció: " + data.message);
-                    }
-
-                } catch (error) {
-                    console.error('Hiba a regisztráció során:', error);
-                    alert("❌ Hiba történt a regisztráció során.");
+                if (!username || !password) {
+                    alert("Kérem töltse ki a mezőket!");
+                    return;
                 }
-            });
+
+                const response = await fetch('./backend/regist.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                // Read raw response first to debug any JSON issues
+                const text = await response.text();
+                console.log('Raw PHP response:', text);
+
+                // Then parse JSON safely
+                const data = JSON.parse(text);
+
+                if (data.status === 'success') {
+                    alert("✅ Sikeres regisztráció!");
+                } else {
+                    alert("⚠️ Sikertelen regisztráció: " + data.message);
+                }
+
+            } catch (error) {
+                console.error('Hiba a regisztráció során:', error);
+                alert("❌ Hiba történt a regisztráció során.");
+            }
+
+        }
+        async function fetchLogin() {
+
+            try {
+                alert("Bejelentkezés gomb megnyomva");
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!username || !password) {
+                    alert("Kérem töltse ki a mezőket!");
+                    return;
+                }
+
+                const response = await fetch('./backend/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                // Read raw response first to debug any JSON issues
+                const text = await response.text();
+                console.log('Raw PHP response:', text);
+
+                // Then parse JSON safely
+                const data = JSON.parse(text);
+
+                if (data.status === 'success') {
+                    alert("✅ Sikeres bejelentkezés! Üdvözlünk, " + data.user);
+
+                } else {
+                    alert("⚠️ Sikertelen bejelentkezés: " + data.message);
+                }
+
+
+            } catch (error) {
+                console.error('Hiba a bejelentkezés során:', error);
+                alert("❌ Hiba történt a bejelentkezés során.");
+            }
+
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('#register').addEventListener('click', fetchRegister);
+            document.querySelector('#login').addEventListener('click', fetchLogin);
         });
+        function handleLoad() {
+            fetch('./backend/cookie_check.php', {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include"  // <— important: ensures cookies are sent
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Bejelentkezve mint: " + data.user);
+                    } else {
+                        alert("Token érvénytelen vagy lejárt: " + data.error);
+                    }
+                });
+        }
 
-
-        window.onload = fillScoreTable;
+        window.onload = handleLoad;
     </script>
 </head>
 

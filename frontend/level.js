@@ -19,9 +19,8 @@ export async function loadLevel() {
     const response = await fetch("./assets/level.json");
     if (!response.ok) throw new Error(`HTTP error! ${response.status}`);
     level = await response.json(); 
-    console.log("Level loaded:", level.length, "rows");
   } catch (err) {
-    console.error("Failed to load level.json:", err);
+    alert("Hiba a pálya betöltése során: " + err.message);
   }
 }
 export function CountCoins() {

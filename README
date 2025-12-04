@@ -36,6 +36,11 @@ Rövid összefoglaló a tanult technikák közül, amiket a projektben alkalmazt
     - canvas 2D alapok és requestAnimationFrame egyszerű animációkhoz
     - Fetch API hálózati kérésekhez; használat REST/JSON végpontokkal
     - Alapvető error handling és timeout kezelések fetch-en belül
+- Backend kommunikáció
+    - API hívások Fetch API-val (GET, POST)
+    - JSON adatküldés és fogadás
+    - Alapvető hibakezelés hálózati kéréseknél
+    - JWT token kezelés a hitelesítéshez
 
 # Játék leírása
 

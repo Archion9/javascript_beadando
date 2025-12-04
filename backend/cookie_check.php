@@ -16,9 +16,8 @@ $expected_signature = base64_encode(
     hash_hmac('sha512', "$header.$payload", $jwt_secret, true)
 );
 
-// Fix padding/base64 differences
 function base64UrlDecode($input) {
-    return base64_decode(strtr($input, '-_', '+/'));
+    return base64_decode(strtr($input, '-_', '+/')); // Fix padding/base64 differences
 }
 
 if (!hash_equals(base64UrlDecode($signature), base64UrlDecode($expected_signature))) {
@@ -38,5 +37,4 @@ echo json_encode([
     "user" => $decoded['username'],
     "id" => $decoded['sub']
 ]);
-
 ?>

@@ -6,22 +6,13 @@ let lastFrameTime = performance.now();
 let paused = false;
 let gameRunning = false;
 
-export async function initGame(username) { 
-    //console.trace("initGame() called with username:", username); // helps find caller
-
-    if (gameRunning) {
-    console.log("initGame: game already running — ignoring.");
-    return;
-  }
+export async function initGame() { 
   const canvas = document.querySelector('#game-canvas');
   if (!canvas) {
-    console.error('Nem található a játékvászon!');
+    console.log('Nem található a játékvászon!');
     return;
   }
-  if (!username || username === '') {
-    console.warn('initGame: empty username — not starting.');
-    return;
-  }
+
   await loadLevel();
   CountCoins();
   initCamera(canvas);
@@ -49,40 +40,42 @@ export function GameLoop(canvas, currentTime) {
 export function GameLogic(canvas, dt) {
     if(paused) return;
     if(player.lives <= 0){
-        console.log("Game Over!");
         stopGame();
-        alert("Game Over! Próbáld újra!");
         saveGame();
-        location.reload();
+        alert("Játék vége! Próbáld újra!");
     }
     if(CountCoins() === 0){
-        console.log("You collected all coins! You win!");
         stopGame();
-        alert("Gratulálok! Összegyűjtötted az összes érmét!");
         saveGame();
-        location.reload();
+        alert("Gratulálok! Összegyűjtötted az összes érmét!");
     }
 
     updatePlayer(canvas, dt);
     updateCamera();
 }
-function saveGame(){
-   const newGameData = {
-        username: document.querySelector('#username').value,
+
+ function saveGame() {
+    const newGameData = {
         score: player.points,
         lives: player.lives,
         time: Math.floor((performance.now() - drawTimer.startTime) / 1000)
     };
 
-    // Get existing data (if any)
-    let allGames = JSON.parse(localStorage.getItem('gameData')) || [];
-
-    // Add the new game record
-    allGames.push(newGameData);
-
-    // Save back to localStorage
-    localStorage.setItem('gameData', JSON.stringify(allGames));
+    fetch('./backend/addscore.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newGameData)
+    })
+    .then(r => r.json())
+    .then(data => console.log(data.message))
+    .catch(err => console.log("Hiba: " + err))
+    
+    location.reload();
+    
 }
+
 
 export function GameRender(canvas, dt) {
     if(paused) return;
@@ -92,8 +85,6 @@ export function GameRender(canvas, dt) {
     drawPlayer(ctx);
     drawFps(ctx);
     drawTimer(ctx);
-    //drawDeltaTime(ctx, dt);
-    //drawCameraInfo(ctx, camera);
     drawPoints(ctx);
     drawLives(ctx);
 }
@@ -125,17 +116,14 @@ export function drawCameraInfo(ctx, camera) {
 
 export function pauseGame() {
   paused = true;
-  console.log('Game paused');
 }
 
 export function resumeGame() {
   paused = false;
   lastFrameTime = performance.now();
-  console.log('Game resumed');
 }
 export function stopGame() {
     gameRunning = false;
-    console.log("Game stopped");
 }
 export function drawPoints(ctx) {
     ctx.fillStyle = 'black';
